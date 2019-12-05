@@ -1,0 +1,3 @@
+{
+  "app": "npx ts-node bin/advent-calendar-2019.ts"
+}
