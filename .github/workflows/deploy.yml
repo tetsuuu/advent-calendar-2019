@@ -46,6 +46,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
           SLACK_ICON: github
+          SLACK_COLOR: '#cb2431'
           SLACK_USERNAME: Github Actions
           SLACK_TITLE: DEPLOYMENT ERROR
           SLACK_MESSAGE: ${{ github.head_ref }} deployment has been fail!
@@ -68,6 +69,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
           SLACK_ICON: github
+          SLACK_COLOR: '#3dc105'
           SLACK_USERNAME: Github Actions
           SLACK_TITLE: DEPLOYMENT SUCCESS
           SLACK_MESSAGE: ${{ github.head_ref }} deployment has been success!
