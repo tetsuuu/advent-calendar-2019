@@ -47,7 +47,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-          SLACK_ICON: github
+          SLACK_ICON: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png?size=48'
           SLACK_COLOR: '#cb2431'
           SLACK_USERNAME: Github Actions
           SLACK_TITLE: DEPLOYMENT ERROR
@@ -72,7 +72,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-          SLACK_ICON: github
+          SLACK_ICON: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png?size=48'
           SLACK_COLOR: '#3dc105'
           SLACK_USERNAME: Github Actions
           SLACK_TITLE: DEPLOYMENT SUCCESS

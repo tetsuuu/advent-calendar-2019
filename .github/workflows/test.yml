@@ -42,7 +42,7 @@ jobs:
         #   actions_comment: false
         #   cdk_version: '1.17.1'
         run: |
-          cdk diff AdventCalendar2019Stack
+          cdk diff AdventCalendar2019Stack -v
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
