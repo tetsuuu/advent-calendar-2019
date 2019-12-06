@@ -5,7 +5,6 @@ on:
     branches:
       - master
 
-
 jobs:
   aws_cdk:
     runs-on: ubuntu-18.04
@@ -23,17 +22,19 @@ jobs:
 
       - name: Setup dependencies
         run: |
+          npm install -g aws-cdk@1.17.1
           npm ci
-          npm run build
 
       - name: cdk deploy
-        uses: youyo/aws-cdk-github-actions@master
-        with:
-          cdk_subcommand: 'deploy'
-          cdk_stack: 'AdventCalendar2019Stack'
-          cdk_version: '1.17.1'
-          actions_comment: false
-          args: '--require-approval never'
+        # uses: youyo/aws-cdk-github-actions@master
+        # with:
+        #   cdk_subcommand: 'deploy'
+        #   cdk_stack: 'AdventCalendar2019Stack'
+        #   cdk_version: '1.17.1'
+        #   actions_comment: false
+        #   args: '--require-approval never'
+        run: |
+          cdk deploy --require-approval never
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -45,18 +46,20 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-          SLACK_ICON: github
+          SLACK_ICON: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png?size=48'
           SLACK_COLOR: '#cb2431'
           SLACK_USERNAME: Github Actions
           SLACK_TITLE: DEPLOYMENT ERROR
           SLACK_MESSAGE: ${{ github.head_ref }} deployment has been fail!
 
       - name: cdk synth
-        uses: youyo/aws-cdk-github-actions@master
-        with:
-          cdk_subcommand: 'synth'
-          cdk_version: '1.17.1'
-          cdk_stack: 'AdventCalendar2019Stack'
+        # uses: youyo/aws-cdk-github-actions@master
+        # with:
+        #   cdk_subcommand: 'synth'
+        #   cdk_version: '1.17.1'
+        #   cdk_stack: 'AdventCalendar2019Stack'
+        run: |
+          cdk synth
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -68,7 +71,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
-          SLACK_ICON: github
+          SLACK_ICON: 'https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png?size=48'
           SLACK_COLOR: '#3dc105'
           SLACK_USERNAME: Github Actions
           SLACK_TITLE: DEPLOYMENT SUCCESS
