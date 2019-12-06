@@ -35,14 +35,14 @@ jobs:
           npm run test
 
       - name: cdk diff
-        # uses: youyo/aws-cdk-github-actions@master
-        # with:
-        #   cdk_subcommand: 'diff'
-        #   cdk_stack: 'AdventCalendar2019Stack'
-        #   actions_comment: false
-        #   cdk_version: '1.17.1'
-        run: |
-          cdk diff -v
+        uses: youyo/aws-cdk-github-actions@master
+        with:
+          cdk_subcommand: 'diff'
+          cdk_stack: 'AdventCalendar2019Stack'
+          actions_comment: false
+          cdk_version: '1.17.1'
+        # run: |
+        #   cdk diff -v
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
