@@ -5,7 +5,6 @@ on:
     branches:
       - master
 
-
 jobs:
   aws_cdk:
     runs-on: ubuntu-18.04
@@ -35,7 +34,7 @@ jobs:
         #   actions_comment: false
         #   args: '--require-approval never'
         run: |
-          cdk deploy AdventCalendar2019Stack --require-approval never
+          cdk deploy --require-approval never
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -60,7 +59,7 @@ jobs:
         #   cdk_version: '1.17.1'
         #   cdk_stack: 'AdventCalendar2019Stack'
         run: |
-          cdk synth AdventCalendar2019Stack
+          cdk synth
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
