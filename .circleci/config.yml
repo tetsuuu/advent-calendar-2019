@@ -8,6 +8,8 @@ executors:
   node:
     docker:
       - image: circleci/node:12.13-buster-browsers-legacy
+    environment:
+      AWS_REGION: 'us-east-1'
 
 workflows:
 
@@ -121,8 +123,6 @@ jobs:
       - restore_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
       # - run: cdk diff AdventCalendar2019Stack
-      - run: echo "[profile default]" >> ~/.aws/config
-      - run: echo "region=ap-northeast-1" >> ~/.aws/config
       - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk diff AdventCalendar2019Stack
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
