@@ -30,8 +30,8 @@ workflows:
       #           - master
 
       - document-test:
-          # requires:
-          #   - lint-check
+          requires:
+            - initialize
           filters:
             branches:
               only:
@@ -82,7 +82,7 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: sudo npm install tslint typescript aws-cdk@${CDK_VERSION} -g
+      - run: sudo npm install --prefix /usr/local/bin tslint typescript aws-cdk@${CDK_VERSION} -g
       - run: sudo npm ci
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
