@@ -121,6 +121,7 @@ jobs:
       - restore_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
       # - run: cdk diff AdventCalendar2019Stack
+      - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk bootstrap --region us-east-1
       - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk diff AdventCalendar2019Stack
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
