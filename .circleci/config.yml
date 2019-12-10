@@ -85,7 +85,7 @@ jobs:
       - run: npm install tslint typescript aws-cdk -g
       - run: npm ci
       - save_cache:
-          key: cdk-v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
 
@@ -94,7 +94,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: cdk-v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
       - run: tslint './lib/*.ts'
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
