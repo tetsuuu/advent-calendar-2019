@@ -84,6 +84,7 @@ jobs:
       - checkout
       - run: sudo npm install tslint typescript aws-cdk@${CDK_VERSION} -g
       - run: sudo npm ci
+      - run: sudo ln -fns /home/circleci/project/node_modules/aws-cdk/bin/cdk /usr/local/bin/cdk
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
