@@ -1,0 +1,171 @@
+version: 2.1
+
+orbs:
+  slack: circleci/slack@3.4.1
+
+executors:
+
+  node:
+    docker:
+      - image: circleci/node:12.8.1-stretch
+
+workflows:
+
+  cdk-test:
+    jobs:
+      - initialize:
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+
+      - lint-check:
+          requires:
+            - initialize
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+
+      - document-test:
+          requires:
+            - lint-check
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+
+      - diff-check:
+          requires:
+            - document-test
+          filters:
+            branches:
+              only:
+                - develop
+                - master
+
+      - send-approval-link:
+          requires:
+            - diff-check
+          filters:
+            branches:
+              only:
+                - master
+
+      - approval:
+          type: approval
+          requires:
+            - diff-check
+
+      - cdk-deploy:
+          requires:
+            - approval
+          filters:
+            branches:
+              only:
+                - master
+
+      - cdk-synth:
+          requires:
+            - cdk-deploy
+          filters:
+            branches:
+              only:
+                - master
+
+jobs:
+
+  initialize:
+    executor: node
+    steps:
+      - checkout
+      - run: npm install tslint typescript aws-cdk -g
+      - run: npm ci
+      - save_cache:
+          key: cdk-v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  lint-check:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          key: cdk-v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: tslint './lib/*.ts'
+      - save_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  document-test:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm run build
+      - run: npm run test
+      - save_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  diff-check:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: cdk diff AdventCalendar2019Stack
+      - save_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  send-approval-link:
+    executor: node
+    steps:
+      - slack/approval:
+          message: "cdk diff has done"
+          mentions: "ULST1RU05"
+          color: "#3dc105"
+          webhook: ${SLACK_WEBHOOK}
+          channel: "CLYBF2FNY"
+
+  cdk-deploy:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: cdk deploy AdventCalendar2019Stack
+      - save_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  cdk-synth:
+    executor: node
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: cdk synth AdventCalendar2019Stack
+      - save_cache:
+          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+            
+  # send-result:
+  #   executor: node
+  #   steps:
+  #     - slack/approval:
+  #         message: "cdk diff has done"
+  #         mentions: "ULST1RU05"
+  #         color: "#3dc105"
+  #         webhook: ${SLACK_WEBHOOK}
+  #         channel: "CLYBF2FNY"
