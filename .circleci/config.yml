@@ -30,8 +30,8 @@ workflows:
       #           - master
 
       - document-test:
-          requires:
-            - lint-check
+          # requires:
+          #   - lint-check
           filters:
             branches:
               only:
