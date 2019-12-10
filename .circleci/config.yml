@@ -82,8 +82,8 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: npm install tslint typescript aws-cdk -g
-      - run: npm ci
+      - run: sudo npm install tslint typescript aws-cdk -g
+      - run: sudo npm ci
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
