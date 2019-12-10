@@ -89,8 +89,6 @@ jobs:
           command: |
             sudo npm install tslint typescript aws-cdk@1.17.1 -g
             sudo npm ci
-            sudo apt update
-            sudo apt install -y awscli
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
@@ -128,7 +126,7 @@ jobs:
       - restore_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
       # - run: cdk diff AdventCalendar2019Stack
-      - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk diff AdventCalendar2019Stack -v --ignore-errors
+      - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk diff AdventCalendar2019Stack
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:

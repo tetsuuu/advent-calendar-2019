@@ -1,3 +1,4 @@
 {
-  "app": "npx ts-node bin/advent-calendar-2019.ts"
+  "app": "npx ts-node bin/advent-calendar-2019.ts",
+  "aws-cdk:diffNoFail": "true"
 }
