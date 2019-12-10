@@ -8,6 +8,7 @@ executors:
   node:
     docker:
       - image: circleci/node:12.8.1-stretch
+        user: root
 
 workflows:
 
@@ -82,8 +83,8 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: sudo npm install --prefix /usr/local/bin tslint typescript aws-cdk@${CDK_VERSION} -g
-      - run: sudo npm ci
+      - run: npm install tslint typescript aws-cdk@${CDK_VERSION} -g
+      - run: npm ci
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
