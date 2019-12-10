@@ -126,7 +126,12 @@ jobs:
       - restore_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
       # - run: cdk diff AdventCalendar2019Stack
-      - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk diff AdventCalendar2019Stack
+      - run: 
+          name: cdk_diff
+          command: |
+            /home/circleci/project/node_modules/aws-cdk/bin/cdk diff AdventCalendar2019Stack
+            if [ "${?}" -ne 0 ]; then
+            exit 0
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
