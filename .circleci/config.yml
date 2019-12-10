@@ -84,8 +84,10 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: sudo npm install tslint typescript aws-cdk@${CDK_VERSION} -g
+      - run: sudo npm install tslint typescript aws-cdk@1.17.1 -g
       - run: sudo npm ci
+      - run: sudo yum -y update
+      - run: sudo yum install -y awscli
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
