@@ -84,7 +84,6 @@ jobs:
       - checkout
       - run: sudo npm install tslint typescript aws-cdk@${CDK_VERSION} -g
       - run: sudo npm ci
-      - run: sudo ln -fns /home/circleci/project/node_modules/aws-cdk/bin/cdk /usr/local/bin/cdk
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
@@ -121,7 +120,8 @@ jobs:
       - checkout
       - restore_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: cdk diff AdventCalendar2019Stack
+      # - run: cdk diff AdventCalendar2019Stack
+      - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk diff AdventCalendar2019Stack
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
@@ -143,7 +143,8 @@ jobs:
       - checkout
       - restore_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: cdk deploy AdventCalendar2019Stack
+      # - run: cdk deploy AdventCalendar2019Stack
+      - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk deploy AdventCalendar2019Stack
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
@@ -155,13 +156,14 @@ jobs:
       - checkout
       - restore_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: cdk synth AdventCalendar2019Stack
+      # - run: cdk synth AdventCalendar2019Stack
+      - run: /home/circleci/project/node_modules/aws-cdk/bin/cdk synth AdventCalendar2019Stack
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
             
-  # send-result:
+  # send-result: 
   #   executor: node
   #   steps:
   #     - slack/approval:
