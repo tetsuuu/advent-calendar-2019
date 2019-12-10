@@ -20,14 +20,14 @@ workflows:
                 - develop
                 - master
 
-      - lint-check:
-          requires:
-            - initialize
-          filters:
-            branches:
-              only:
-                - develop
-                - master
+      # - lint-check:
+      #     requires:
+      #       - initialize
+      #     filters:
+      #       branches:
+      #         only:
+      #           - develop
+      #           - master
 
       - document-test:
           requires:
@@ -82,24 +82,24 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: sudo npm install tslint typescript aws-cdk -g
+      - run: sudo npm install tslint typescript aws-cdk@${CDK_VERSION} -g
       - run: sudo npm ci
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - node_modules
 
-  lint-check:
-    executor: node
-    steps:
-      - checkout
-      - restore_cache:
-          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: tslint './lib/*.ts'
-      - save_cache:
-          key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
-          paths:
-            - node_modules
+  # lint-check:
+  #   executor: node
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+  #     - run: tslint './lib/*.ts'
+  #     - save_cache:
+  #         key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
+  #         paths:
+  #           - node_modules
 
   document-test:
     executor: node
