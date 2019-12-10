@@ -7,8 +7,7 @@ executors:
 
   node:
     docker:
-      - image: circleci/node:12.8.1-stretch
-        user: root
+      - image: circleci/node:12.13-buster-browsers-legacy
 
 workflows:
 
@@ -83,8 +82,8 @@ jobs:
     executor: node
     steps:
       - checkout
-      - run: npm install tslint typescript aws-cdk@${CDK_VERSION} -g
-      - run: npm ci
+      - run: sudo npm install tslint typescript aws-cdk@${CDK_VERSION} -g
+      - run: sudo npm ci
       - save_cache:
           key: v1-cdk-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
